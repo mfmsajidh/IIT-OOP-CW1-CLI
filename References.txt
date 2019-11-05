@@ -1,0 +1,7 @@
+1)  https://medium.com/agency04/developing-cli-application-with-spring-shell-part-1-807cd3a32461
+2)  https://projects.spring.io/spring-shell/
+3)  http://zetcode.com/springboot/component/
+4)  https://www.baeldung.com/spring-component-repository-service
+5)  https://www.baeldung.com/spring-bean-annotations
+6)  https://www.javatpoint.com/java-string-format
+7)  https://dzone.com/articles/java-string-format-examples
