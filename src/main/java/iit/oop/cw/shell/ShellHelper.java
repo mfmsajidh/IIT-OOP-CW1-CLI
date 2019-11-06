@@ -25,7 +25,7 @@ public class ShellHelper {
         this.terminal = terminal;
     }
 
-    public String getColored(String message, PromptColor color) {
+    private String getColored(String message, PromptColor color) {
         return (new AttributedStringBuilder()).append(message, AttributedStyle.DEFAULT.foreground(color.toJlineAttributedStyle())).toAnsi();
     }
 
@@ -85,7 +85,12 @@ public class ShellHelper {
         print(message, PromptColor.valueOf(errorColor));
     }
 
-    public void print(String message, PromptColor color) {
+    /**
+     * Generic Print to the console method
+     * @param message message to print
+     * @param color (optional) prompt color
+     */
+    private void print(String message, PromptColor color) {
         String toPrint = message;
         if (color != null) {
             toPrint =  getColored(message, color);
