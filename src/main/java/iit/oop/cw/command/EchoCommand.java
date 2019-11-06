@@ -1,4 +1,4 @@
-package iit.oop.cw.commands;
+package iit.oop.cw.command;
 
 import iit.oop.cw.shell.ShellHelper;
 import org.springframework.beans.factory.annotation.Autowired;
