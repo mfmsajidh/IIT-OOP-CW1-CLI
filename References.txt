@@ -5,3 +5,8 @@
 5)  https://www.baeldung.com/spring-bean-annotations
 6)  https://www.javatpoint.com/java-string-format
 7)  https://dzone.com/articles/java-string-format-examples
+8)  https://docs.gradle.org/current/userguide/build_environment.html#sec:accessing_the_web_via_a_proxy
+9)  https://www.labkey.org/Documentation/wiki-page.view?name=gradleProps
+10) https://www.baeldung.com/spring-value-annotation
+11) https://www.journaldev.com/21448/spring-value-annotation
+12)
