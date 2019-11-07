@@ -14,6 +14,6 @@ public class VehicleCommand {
 
     @ShellMethod("Create a new vehicle with the supplied details")
     public void addVehicle(@ShellOption String numberPlate) {
-        vehicleService.saveVehicle(numberPlate);
+        vehicleService.insertVehicle(numberPlate);
     }
 }

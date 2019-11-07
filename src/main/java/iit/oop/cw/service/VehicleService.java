@@ -18,7 +18,7 @@ public class VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    public void saveVehicle(String numberPlate) {
+    public void insertVehicle(String numberPlate) {
 
         Vehicle vehicle = new Vehicle();
         vehicle.setNumberPlate(numberPlate);
