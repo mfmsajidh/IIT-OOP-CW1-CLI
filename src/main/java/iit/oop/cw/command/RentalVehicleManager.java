@@ -14,5 +14,5 @@ public interface RentalVehicleManager {
     public void deleteVehicle(@ShellOption String numberPlate);
 
     @ShellMethod
-    public String sortAvailableVehicleByModel();
+    public void vehiclesByModel();
 }

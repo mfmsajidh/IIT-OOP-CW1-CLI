@@ -26,7 +26,7 @@ public class WestminsterRentalVehicleManager implements RentalVehicleManager {
 
     @Override
     @ShellMethod("Displays greeting message to the user whose name is supplied")
-    public String sortAvailableVehicleByModel() {
-        return null;
+    public void vehiclesByModel() {
+        vehicleService.viewVehiclesByModel();
     }
 }

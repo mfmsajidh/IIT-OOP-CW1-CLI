@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 @Service
 public class VehicleService {
 
@@ -54,5 +56,17 @@ public class VehicleService {
         vehicle = vehicleRepository.findByNumberPlate(numberPlate);
         vehicleRepository.deleteById(vehicle.get_id());
 
+    }
+
+    public void viewVehiclesByModel() {
+
+        List<Vehicle> vehicles = vehicleRepository.findAllByOrderByModelDesc();
+
+        for (Vehicle vehicle: vehicles) {
+            shellHelper.print("Model" + vehicle.getModel());
+            shellHelper.print("_id" + vehicle.get_id());
+            shellHelper.print("Number Plate" + vehicle.getNumberPlate());
+            shellHelper.print("Type" + vehicle.getType());
+        }
     }
 }
