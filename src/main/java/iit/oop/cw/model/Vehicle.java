@@ -3,7 +3,7 @@ package iit.oop.cw.model;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
-public class Vehicles {
+public class Vehicle {
 
     @Id
     private ObjectId _id;
@@ -12,9 +12,9 @@ public class Vehicles {
     private String type;
     private String model;
 
-    public Vehicles(){}
+    public Vehicle() {}
 
-    public Vehicles(ObjectId _id, String numberPlate, String type, String model) {
+    public Vehicle(ObjectId _id, String numberPlate, String type, String model) {
         this._id = _id;
         this.numberPlate = numberPlate;
         this.type = type;

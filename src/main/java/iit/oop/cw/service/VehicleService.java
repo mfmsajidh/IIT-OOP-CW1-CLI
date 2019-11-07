@@ -1,6 +1,6 @@
 package iit.oop.cw.service;
 
-import iit.oop.cw.model.Vehicles;
+import iit.oop.cw.model.Vehicle;
 import iit.oop.cw.repository.VehicleRepository;
 import iit.oop.cw.shell.InputReader;
 import iit.oop.cw.shell.ShellHelper;
@@ -20,30 +20,30 @@ public class VehicleService {
 
     public void saveVehicle(String numberPlate) {
 
-        Vehicles vehicles = new Vehicles();
-        vehicles.setNumberPlate(numberPlate);
+        Vehicle vehicle = new Vehicle();
+        vehicle.setNumberPlate(numberPlate);
 
         // Read vehicle's type
         do {
             String type = inputReader.prompt("Vehicle Type");
             if (StringUtils.hasText(type)) {
-                vehicles.setType(type);
+                vehicle.setType(type);
             } else {
                 shellHelper.printWarning("Vehicle type cannot be empty!");
             }
-        } while (vehicles.getType().isEmpty());
+        } while (vehicle.getType().isEmpty());
 
         // Read vehicle's model
         do {
             String model = inputReader.prompt("Vehicle Model");
             if (StringUtils.hasText(model)) {
-                vehicles.setModel(model);
+                vehicle.setModel(model);
             } else {
                 shellHelper.printWarning("Vehicle model cannot be empty");
             }
-        } while (vehicles.getModel().isEmpty());
+        } while (vehicle.getModel().isEmpty());
 
-        Vehicles createdVehicle = vehicleRepository.insert(vehicles);
+        Vehicle createdVehicle = vehicleRepository.insert(vehicle);
 
         // Print saved details
         shellHelper.printSuccess("Created vehicle with Id = " + createdVehicle.get_id());
