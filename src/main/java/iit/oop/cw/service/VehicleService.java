@@ -43,12 +43,16 @@ public class VehicleService {
             }
         } while (vehicle.getModel().isEmpty());
 
-        Vehicle createdVehicle = vehicleRepository.insert(vehicle);
+        vehicleRepository.insert(vehicle);
+        shellHelper.printSuccess("Successfully created vehicle!");
 
-        // Print saved details
-        shellHelper.printSuccess("Created vehicle with Id = " + createdVehicle.get_id());
-        shellHelper.print("Number Plate: " + createdVehicle.getNumberPlate());
-        shellHelper.print("Type: " + createdVehicle.getType());
-        shellHelper.print("Model: " + createdVehicle.getModel());
+    }
+
+    public void deleteVehicle(String numberPlate) {
+
+        Vehicle vehicle = new Vehicle();
+        vehicle = vehicleRepository.findByNumberPlate(numberPlate);
+        vehicleRepository.deleteById(vehicle.get_id());
+
     }
 }
