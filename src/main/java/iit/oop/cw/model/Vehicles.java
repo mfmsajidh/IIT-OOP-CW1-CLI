@@ -1,45 +1,56 @@
-//package iit.oop.cw.models;
-//
-//import org.springframework.data.annotation.Id;
-//
-//public class Vehicles {
-//
-//    @Id
-//    private String id;
-//
-//    private String plateNumber;
-//    private String make;
-//
-//    public Vehicles(){}
-//
-//    public Vehicles(String id, String plateNumber, String make) {
-//        this.id = id;
-//        this.plateNumber = plateNumber;
-//        this.make = make;
-//    }
-//
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public void setId(String id) {
-//        this.id = id;
-//    }
-//
-//    public String getPlateNumber() {
-//        return plateNumber;
-//    }
-//
-//    public void setPlateNumber(String plateNumber) {
-//        this.plateNumber = plateNumber;
-//    }
-//
-//    public String getMake() {
-//        return make;
-//    }
-//
-//    public void setMake(String make) {
-//        this.make = make;
-//    }
-//
-//}
+package iit.oop.cw.model;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+
+public class Vehicles {
+
+    @Id
+    private ObjectId _id;
+
+    private String numberPlate;
+    private String type;
+    private String model;
+
+    public Vehicles(){}
+
+    public Vehicles(ObjectId _id, String numberPlate, String type, String model) {
+        this._id = _id;
+        this.numberPlate = numberPlate;
+        this.type = type;
+        this.model = model;
+    }
+
+//    ObjectId needs to be converted to string
+    public String get_id() {
+        return _id.toHexString();
+    }
+
+    public void set_id(ObjectId _id) {
+        this._id = _id;
+    }
+
+    public String getNumberPlate() {
+        return numberPlate;
+    }
+
+    public void setNumberPlate(String numberPlate) {
+        this.numberPlate = numberPlate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+}

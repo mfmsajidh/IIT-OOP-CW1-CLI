@@ -1,6 +1,6 @@
 package iit.oop.cw.command;
 
-import iit.oop.cw.shell.ShellHelper;
+import iit.oop.cw.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -10,10 +10,10 @@ import org.springframework.shell.standard.ShellOption;
 public class VehicleCommand {
 
     @Autowired
-    ShellHelper shellHelper;
+    private VehicleService vehicleService;
 
     @ShellMethod("Create a new vehicle with the supplied details")
-    public void addVehicle(@ShellOption String vehiclePlateNumber) {
-        shellHelper.printInfo(vehiclePlateNumber);
+    public void addVehicle(@ShellOption String numberPlate) {
+        vehicleService.saveVehicle(numberPlate);
     }
 }
