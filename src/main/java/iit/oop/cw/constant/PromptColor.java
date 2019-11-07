@@ -1,4 +1,4 @@
-package iit.oop.cw.enums;
+package iit.oop.cw.constant;
 
 public enum PromptColor {
     BLACK(0),
