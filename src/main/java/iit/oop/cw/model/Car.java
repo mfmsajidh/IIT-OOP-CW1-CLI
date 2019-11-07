@@ -5,13 +5,6 @@ public class Car extends Vehicle{
     private int numberOfDoors;
     private boolean airConditioning;
 
-    public Car() {};
-
-    public Car(int numberOfDoors, boolean airConditioning) {
-        this.numberOfDoors = numberOfDoors;
-        this.airConditioning = airConditioning;
-    }
-
     public int getNumberOfDoors() {
         return numberOfDoors;
     }

@@ -12,15 +12,6 @@ public class Vehicle {
     private String type;
     private String model;
 
-    public Vehicle() {}
-
-    public Vehicle(ObjectId _id, String numberPlate, String type, String model) {
-        this._id = _id;
-        this.numberPlate = numberPlate;
-        this.type = type;
-        this.model = model;
-    }
-
 //    ObjectId needs to be converted to string
     public String get_id() {
         return _id.toHexString();

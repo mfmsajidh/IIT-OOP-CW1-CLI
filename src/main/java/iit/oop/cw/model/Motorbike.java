@@ -5,13 +5,6 @@ public class Motorbike extends Vehicle {
     private boolean helmetProvided;
     private String bikeType;
 
-    public Motorbike() {};
-
-    public Motorbike(boolean helmetProvided, String bikeType) {
-        this.helmetProvided = helmetProvided;
-        this.bikeType = bikeType;
-    }
-
     public boolean isHelmetProvided() {
         return helmetProvided;
     }
