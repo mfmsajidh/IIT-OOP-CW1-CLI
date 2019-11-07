@@ -7,8 +7,7 @@ import java.util.*;
 
 public class InputReader {
 
-    public static final Character DEFAULT_MASK = '*';
-
+    private static final Character DEFAULT_MASK = '*';
     private Character mask;
     private LineReader lineReader;
     private ShellHelper shellHelper;
@@ -89,9 +88,17 @@ public class InputReader {
             return l.contains(s);
         }
 
+        /*
         Iterator<String> it = l.iterator();
         while (it.hasNext()) {
             if (it.next().equalsIgnoreCase(s))
+                return true;
+        }
+        // Commented by Sajidh for Testing, replaced with for loop below
+         */
+
+        for (String value : l) {
+            if (value.equalsIgnoreCase(s))
                 return true;
         }
 

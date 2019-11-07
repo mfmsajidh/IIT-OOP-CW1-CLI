@@ -35,11 +35,9 @@ public class SpringShellConfig {
                 .completer(completerAdapter)
                 .history(history)
                 .highlighter(
-                        (LineReader lineReader, String buffer) -> {
-                            return new AttributedString(
-                                    buffer, AttributedStyle.BOLD.foreground(PromptColor.WHITE.toJlineAttributedStyle())
-                            );
-                        }
+                        (LineReader lineReader, String buffer) -> new AttributedString(
+                                buffer, AttributedStyle.BOLD.foreground(PromptColor.WHITE.toJlineAttributedStyle())
+                        )
                 ).parser(parser);
 
         LineReader lineReader = lineReaderBuilder.build();
