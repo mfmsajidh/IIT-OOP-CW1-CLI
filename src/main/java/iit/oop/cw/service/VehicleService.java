@@ -43,7 +43,7 @@ public class VehicleService {
             }
         } while (vehicles.getModel().isEmpty());
 
-        Vehicles createdVehicle = vehicleRepository.save(vehicles);
+        Vehicles createdVehicle = vehicleRepository.insert(vehicles);
 
         // Print saved details
         shellHelper.printSuccess("Created vehicle with Id = " + createdVehicle.get_id());
