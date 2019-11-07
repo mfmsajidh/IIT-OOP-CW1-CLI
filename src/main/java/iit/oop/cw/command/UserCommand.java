@@ -11,6 +11,8 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,10 +21,8 @@ public class UserCommand {
 
     @Autowired
     ShellHelper shellHelper;
-
     @Autowired
     UserService userService;
-
     @Autowired
     InputReader inputReader;
 
@@ -67,6 +67,13 @@ public class UserCommand {
         Gender gender = Gender.valueOf(options.get(genderValue.toUpperCase()));
         user.setGender(gender);
 
+        //Prompts for superuser attribute
+        String superuserValue = inputReader.promptWithOptions("New user is suepruser", "N", Arrays.asList("Y", "N"));
+        if ("Y".equals(superuserValue)) {
+            user.setSuperuser(true);
+        } else {
+            user.setSuperuser(false);
+        }
 
         // Print user's input
         shellHelper.printInfo("\nCreating new user:");

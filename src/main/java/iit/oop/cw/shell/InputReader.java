@@ -3,10 +3,7 @@ package iit.oop.cw.shell;
 import org.jline.reader.LineReader;
 import org.springframework.util.StringUtils;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class InputReader {
 
@@ -99,6 +96,50 @@ public class InputReader {
         }
 
         return false;
+    }
+
+    /**
+     * Loops until one of the 'options' is  provided,
+     * @param prompt Used to Display a prompt message
+     * @param defaultValue Pressing return is equivalent to returning 'defaultValue', Passing null for defaultValue signifies that there is no default value
+     * @param optionsAsList The provided options, Passing "" or null among optionsAsList means that an empty answer is allowed, in these cases this method returns an empty String "" as the result of its execution
+     * @return Returns the answer as a String
+     */
+    public String promptWithOptions(String prompt, String defaultValue, List<String> optionsAsList) {
+
+        String answer;
+        List<String> allowedAnswers = new ArrayList<>(optionsAsList);
+        if (StringUtils.hasText(defaultValue)) {
+            allowedAnswers.add("");
+        }
+
+        do {
+            answer = lineReader.readLine(String.format("%s %s: ", prompt, formatOptions(defaultValue, optionsAsList)));
+        } while (!allowedAnswers.contains(answer) && !"".equals(answer));
+
+        if (StringUtils.isEmpty(answer) && allowedAnswers.contains("")) {
+            return defaultValue;
+        }
+        return answer;
+    }
+
+    private List<String> formatOptions(String defaultValue, List<String> optionsAsList) {
+        List<String> result = new ArrayList<>();
+        for (String option: optionsAsList) {
+            String val = option;
+
+            if ("".equals(option) || option == null) {
+                val = "''";
+            }
+
+            if (defaultValue != null) {
+                if (defaultValue.equals(option) || (defaultValue.equals("") && option == null)) {
+                    val = shellHelper.getInfoMessage(val);
+                }
+            }
+            result.add(val);
+        }
+        return result;
     }
 
 }
