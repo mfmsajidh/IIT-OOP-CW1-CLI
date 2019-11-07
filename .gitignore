@@ -32,3 +32,6 @@ out/
 
 ### Spring Shell Log ###
 spring-shell.log
+
+### Spring Console Log ###
+spring-console.log
