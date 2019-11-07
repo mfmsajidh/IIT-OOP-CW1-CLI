@@ -1,7 +1,7 @@
 package iit.oop.cw.config;
 
 import iit.oop.cw.shell.InputReader;
-import iit.oop.cw.shell.PromptColor;
+import iit.oop.cw.enums.PromptColor;
 import iit.oop.cw.shell.ShellHelper;
 import org.jline.reader.History;
 import org.jline.reader.LineReader;

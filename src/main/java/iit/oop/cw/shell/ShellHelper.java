@@ -1,5 +1,6 @@
 package iit.oop.cw.shell;
 
+import iit.oop.cw.enums.PromptColor;
 import org.jline.terminal.Terminal;
 import org.jline.utils.AttributedStringBuilder;
 import org.jline.utils.AttributedStyle;

@@ -1,6 +1,6 @@
 package iit.oop.cw.model;
 
-import iit.oop.cw.shell.Gender;
+import iit.oop.cw.enums.Gender;
 
 public class User {
 

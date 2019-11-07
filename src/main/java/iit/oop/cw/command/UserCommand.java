@@ -2,7 +2,7 @@ package iit.oop.cw.command;
 
 import iit.oop.cw.model.User;
 import iit.oop.cw.service.UserService;
-import iit.oop.cw.shell.Gender;
+import iit.oop.cw.enums.Gender;
 import iit.oop.cw.shell.InputReader;
 import iit.oop.cw.shell.ShellHelper;
 import org.springframework.beans.factory.annotation.Autowired;

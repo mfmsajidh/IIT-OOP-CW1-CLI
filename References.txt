@@ -9,4 +9,4 @@
 9)  https://www.labkey.org/Documentation/wiki-page.view?name=gradleProps
 10) https://www.baeldung.com/spring-value-annotation
 11) https://www.journaldev.com/21448/spring-value-annotation
-12)
+12) https://www.baeldung.com/spring-boot-disable-console-logging
