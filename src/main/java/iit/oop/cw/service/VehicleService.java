@@ -1,5 +1,6 @@
 package iit.oop.cw.service;
 
+import iit.oop.cw.constant.AppConstant;
 import iit.oop.cw.model.Vehicle;
 import iit.oop.cw.repository.VehicleRepository;
 import iit.oop.cw.shell.InputReader;
@@ -20,51 +21,57 @@ public class VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
+    private int availableParkingLot = AppConstant.MAXIMUM_PARKING_LOTS;
+
     public void insertVehicle() {
+        if (availableParkingLot > 0) {
+            Vehicle vehicle = new Vehicle();
 
-        Vehicle vehicle = new Vehicle();
+            // Read vehicle's number plate
+            do {
+                String numberPlate = inputReader.prompt("Vehicle Number Plate");
+                if (StringUtils.hasText(numberPlate)) {
+                    vehicle.setNumberPlate(numberPlate);
+                } else {
+                    shellHelper.printWarning("Vehicle number plate cannot be empty!");
+                }
+            } while (vehicle.getNumberPlate() == null);
 
-        // Read vehicle's number plate
-        do {
-            String numberPlate = inputReader.prompt("Vehicle Number Plate");
-            if (StringUtils.hasText(numberPlate)) {
-                vehicle.setNumberPlate(numberPlate);
-            } else {
-                shellHelper.printWarning("Vehicle number plate cannot be empty!");
-            }
-        } while (StringUtils.isEmpty(vehicle.getModel()));
+            // Read vehicle's type
+            do {
+                String type = inputReader.prompt("Vehicle Type");
+                if (StringUtils.hasText(type)) {
+                    vehicle.setType(type);
+                } else {
+                    shellHelper.printWarning("Vehicle type cannot be empty!");
+                }
+            } while (vehicle.getType() == null);
 
-        // Read vehicle's type
-        do {
-            String type = inputReader.prompt("Vehicle Type");
-            if (StringUtils.hasText(type)) {
-                vehicle.setType(type);
-            } else {
-                shellHelper.printWarning("Vehicle type cannot be empty!");
-            }
-        } while (StringUtils.isEmpty(vehicle.getType()));
+            // Read vehicle's model
+            do {
+                String model = inputReader.prompt("Vehicle Model");
+                if (StringUtils.hasText(model)) {
+                    vehicle.setModel(model);
+                } else {
+                    shellHelper.printWarning("Vehicle model cannot be empty!");
+                }
+            } while (vehicle.getModel() == null);
 
-        // Read vehicle's model
-        do {
-            String model = inputReader.prompt("Vehicle Model");
-            if (StringUtils.hasText(model)) {
-                vehicle.setModel(model);
-            } else {
-                shellHelper.printWarning("Vehicle model cannot be empty");
-            }
-        } while (StringUtils.isEmpty(vehicle.getModel()));
-
-        vehicleRepository.insert(vehicle);
-        shellHelper.printSuccess("Successfully created vehicle!");
-
+            vehicleRepository.insert(vehicle);
+            shellHelper.printSuccess("Successfully created vehicle!");
+        } else {
+            shellHelper.printInfo(AppConstant.NO_AVAILABLE_PARKING_LOT);
+        }
     }
 
     public void deleteVehicle(String numberPlate) {
+        Vehicle vehicle = vehicleRepository.findByNumberPlate(numberPlate);
+        shellHelper.printInfo("Deleting vehicle with number plate: " + vehicle.getNumberPlate());
+        shellHelper.print("Vehicle Type: " + vehicle.getType());
+        shellHelper.print("Vehicle Model: " + vehicle.getModel());
 
-        Vehicle vehicle = new Vehicle();
-        vehicle = vehicleRepository.findByNumberPlate(numberPlate);
         vehicleRepository.deleteById(vehicle.get_id());
-
+        shellHelper.printSuccess("Successfully Deleted Vehicle!");
     }
 
     public void viewVehiclesByModel() {

@@ -1,6 +1,5 @@
 package iit.oop.cw.command;
 
-import iit.oop.cw.constant.CONSTANT;
 import iit.oop.cw.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellMethod;
@@ -26,8 +25,8 @@ public class WestminsterRentalVehicleManager implements RentalVehicleManager {
     }
 
     @Override
-    @ShellMethod("Display all vehicles with the specified sorting")
-    public void vehiclesByModel() {
+    @ShellMethod("Display all vehicles with the supplied sort")
+    public void viewVehicles() {
         vehicleService.viewVehiclesByModel();
     }
 }
