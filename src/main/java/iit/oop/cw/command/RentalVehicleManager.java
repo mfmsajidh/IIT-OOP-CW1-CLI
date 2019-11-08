@@ -8,7 +8,7 @@ import org.springframework.shell.standard.ShellOption;
 public interface RentalVehicleManager {
 
     @ShellMethod
-    public void addVehicle(@ShellOption String numberPlate);
+    public void addVehicle();
 
     @ShellMethod
     public void deleteVehicle(@ShellOption String numberPlate);

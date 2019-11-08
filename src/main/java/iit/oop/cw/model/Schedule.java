@@ -12,6 +12,7 @@ public class Schedule {
 
     private LocalDate pickUpDate;
     private LocalDate dropOffDate;
+    private LocalDate bookedDate;
 
     public String get_id() {
         return _id.toHexString();
@@ -37,4 +38,11 @@ public class Schedule {
         this.dropOffDate = dropOffDate;
     }
 
+    public LocalDate getBookedDate() {
+        return bookedDate;
+    }
+
+    public void setBookedDate(LocalDate bookedDate) {
+        this.bookedDate = bookedDate;
+    }
 }

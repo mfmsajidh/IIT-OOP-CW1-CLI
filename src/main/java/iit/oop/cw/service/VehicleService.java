@@ -20,10 +20,19 @@ public class VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    public void insertVehicle(String numberPlate) {
+    public void insertVehicle() {
 
         Vehicle vehicle = new Vehicle();
-        vehicle.setNumberPlate(numberPlate);
+
+        // Read vehicle's number plate
+        do {
+            String numberPlate = inputReader.prompt("Vehicle Number Plate");
+            if (StringUtils.hasText(numberPlate)) {
+                vehicle.setNumberPlate(numberPlate);
+            } else {
+                shellHelper.printWarning("Vehicle number plate cannot be empty!");
+            }
+        } while (StringUtils.isEmpty(vehicle.getModel()));
 
         // Read vehicle's type
         do {
@@ -33,7 +42,7 @@ public class VehicleService {
             } else {
                 shellHelper.printWarning("Vehicle type cannot be empty!");
             }
-        } while (vehicle.getType().isEmpty());
+        } while (StringUtils.isEmpty(vehicle.getType()));
 
         // Read vehicle's model
         do {
@@ -43,7 +52,7 @@ public class VehicleService {
             } else {
                 shellHelper.printWarning("Vehicle model cannot be empty");
             }
-        } while (vehicle.getModel().isEmpty());
+        } while (StringUtils.isEmpty(vehicle.getModel()));
 
         vehicleRepository.insert(vehicle);
         shellHelper.printSuccess("Successfully created vehicle!");

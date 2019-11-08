@@ -1,5 +1,6 @@
 package iit.oop.cw.command;
 
+import iit.oop.cw.constant.CONSTANT;
 import iit.oop.cw.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellMethod;
@@ -13,19 +14,19 @@ public class WestminsterRentalVehicleManager implements RentalVehicleManager {
     private VehicleService vehicleService;
 
     @Override
-    @ShellMethod("Displays greeting message to the user whose name is supplied")
-    public void addVehicle(@ShellOption String numberPlate) {
-        vehicleService.insertVehicle(numberPlate);
+    @ShellMethod("Create a new vehicle with the supplied information")
+    public void addVehicle() {
+        vehicleService.insertVehicle();
     }
 
     @Override
-    @ShellMethod("Displays greeting message to the user whose name is supplied")
+    @ShellMethod("Delete a vehicle by it's number plate")
     public void deleteVehicle(@ShellOption String numberPlate) {
         vehicleService.deleteVehicle(numberPlate);
     }
 
     @Override
-    @ShellMethod("Displays greeting message to the user whose name is supplied")
+    @ShellMethod("Display all vehicles with the specified sorting")
     public void vehiclesByModel() {
         vehicleService.viewVehiclesByModel();
     }
