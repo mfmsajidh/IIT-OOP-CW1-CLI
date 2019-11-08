@@ -9,4 +9,5 @@ public interface UserRepository {
     boolean exists(String username);
     User create(User user);
     User update(User user);
+    long updateAll();
 }

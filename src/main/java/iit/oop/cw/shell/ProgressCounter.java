@@ -9,17 +9,38 @@ public class ProgressCounter {
     private Terminal terminal;
     private char[] spinner = {'|', '/', '-', '\\'};
 
+    private String pattern = " %s: %d ";
+
+    private boolean started = false;
     private int spinCounter = 0;
 
     public ProgressCounter(Terminal terminal) {
         this(terminal, null);
     }
 
-    public ProgressCounter(Terminal terminal, char[] spinner) {
+    public ProgressCounter(Terminal terminal, String pattern) {
+        this(terminal, pattern, null);
+    }
+
+    public ProgressCounter(Terminal terminal, String pattern, char[] spinner) {
         this.terminal = terminal;
+        if (pattern != null) {
+            this.pattern = pattern;
+        }
         if (spinner != null) {
             this.spinner = spinner;
         }
+    }
+
+    public void display(int count, String message) {
+        if (!started) {
+            terminal.writer().println();
+            started = true;
+        }
+        String progress = String.format(pattern, message, count);
+
+        terminal.writer().println(CUU + "\r" + getSpinnerChar() + progress);
+        terminal.flush();
     }
 
     public void display() {
@@ -28,6 +49,7 @@ public class ProgressCounter {
             started = true;
         }
         terminal.writer().println(CUU + "\r" + getSpinnerChar());
+        terminal.flush();
     }
 
     public void reset() {
@@ -51,5 +73,13 @@ public class ProgressCounter {
 
     public void setSpinner(char[] spinner) {
         this.spinner = spinner;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 }

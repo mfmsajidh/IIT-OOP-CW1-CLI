@@ -1,6 +1,7 @@
 package iit.oop.cw.config;
 
 import iit.oop.cw.shell.InputReader;
+import iit.oop.cw.shell.ProgressBar;
 import iit.oop.cw.shell.ProgressCounter;
 import iit.oop.cw.shell.ShellHelper;
 import org.jline.reader.LineReader;
@@ -28,5 +29,10 @@ public class SpringShellConfig {
     @Bean
     public ProgressCounter progressCounter(@Lazy Terminal terminal) {
         return new ProgressCounter(terminal);
+    }
+
+    @Bean
+    public ProgressBar progressBar(ShellHelper shellHelper) {
+        return new ProgressBar(shellHelper);
     }
 }

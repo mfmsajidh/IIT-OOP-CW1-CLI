@@ -23,4 +23,18 @@ public class UserService implements UserRepository {
         return user;
     }
 
+    @Override
+    public long updateAll() {
+        long numberOfUsers = 2000;
+        for (long i=1; i<=numberOfUsers; i++) {
+            // do some operation ...
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return numberOfUsers;
+    }
+
 }
