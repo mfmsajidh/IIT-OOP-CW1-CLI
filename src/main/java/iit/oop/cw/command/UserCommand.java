@@ -1,7 +1,7 @@
 package iit.oop.cw.command;
 
 import iit.oop.cw.model.User;
-import iit.oop.cw.service.UserService;
+import iit.oop.cw.repository.UserRepository;
 import iit.oop.cw.constant.Gender;
 import iit.oop.cw.shell.InputReader;
 import iit.oop.cw.shell.ShellHelper;
@@ -21,13 +21,13 @@ public class UserCommand {
     @Autowired
     ShellHelper shellHelper;
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
     @Autowired
     InputReader inputReader;
 
     @ShellMethod("Create new user with supplied username")
     public void createUser(@ShellOption({"-U", "--username"}) String username) {
-        if (userService.exists(username)) {
+        if (userRepository.exists(username)) {
             shellHelper.printError(
                     String.format("User with username='%s' already exists --> ABORTING", username)
             );
@@ -82,7 +82,7 @@ public class UserCommand {
         shellHelper.print("Gender: " + user.getGender());
         shellHelper.print("Superuser: " + user.isSuperuser() + "\n");
 
-        User createdUser = userService.create(user);
+        User createdUser = userRepository.create(user);
         shellHelper.printSuccess("Created user with id=" + createdUser.getId());
 
     }
@@ -90,7 +90,7 @@ public class UserCommand {
     @ShellMethod("Update and synchronize all users in local database with external source")
     public void updateAllUsers() {
         shellHelper.printInfo("Starting local user db update");
-        long numOfUsers = userService.updateAll();
+        long numOfUsers = userRepository.updateAll();
         String successMessage = shellHelper.getSuccessMessage("SUCCESS >>");
         successMessage = successMessage + String.format(" Total of %d local db users updated!", numOfUsers);
         shellHelper.print(successMessage);

@@ -1,11 +1,17 @@
 package iit.oop.cw.service;
 
 import iit.oop.cw.model.User;
+import iit.oop.cw.observer.ProgressUpdateEvent;
 import iit.oop.cw.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-@Service
-public class UserService implements UserRepository {
+import java.util.Observable;
+import java.util.Observer;
+
+//@Service
+public class UserService extends Observable implements UserRepository {
+
+    private Observer observer;
 
     @Override
     public boolean exists(String username) {
@@ -33,8 +39,29 @@ public class UserService implements UserRepository {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            // Notify observer of the change
+            if (observer != null) {
+                String message = "";
+                if (i < numberOfUsers) {
+                    message = ":: please WAIT update operation in progress";
+                }
+                observer.update(
+                        this,
+                        new ProgressUpdateEvent(i, numberOfUsers, message)
+                );
+            }
         }
         return numberOfUsers;
     }
 
+    // Getters & Setters
+
+    public Observer getObserver() {
+        return observer;
+    }
+
+    public void setObserver(Observer observer) {
+        this.observer = observer;
+    }
 }
