@@ -13,6 +13,9 @@ configurations {
     runtimeClasspath {
         extendsFrom developmentOnly
     }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
@@ -23,7 +26,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.shell:spring-shell-starter:2.0.1.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
