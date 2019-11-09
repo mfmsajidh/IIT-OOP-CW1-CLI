@@ -38,4 +38,10 @@ public class WestminsterRentalVehicleManager implements RentalVehicleManager {
     public void viewVehicles() {
         vehicleService.viewVehiclesByModel();
     }
+
+    @ShellMethod("Resets parking lot space")
+    public void resetSpace() {
+        Response response = vehicleService.resetSpace();
+        responseService.respond(response.getStatusCode(), response.getStatusMessage());
+    }
 }

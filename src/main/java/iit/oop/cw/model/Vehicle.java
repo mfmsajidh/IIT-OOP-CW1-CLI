@@ -10,7 +10,7 @@ public class Vehicle {
     private ObjectId _id;
 
     private String numberPlate;
-    private VehicleType type;
+    private String type;
     private String model;
 
 //    ObjectId needs to be converted to string
@@ -30,11 +30,11 @@ public class Vehicle {
         this.numberPlate = numberPlate;
     }
 
-    public VehicleType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(VehicleType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

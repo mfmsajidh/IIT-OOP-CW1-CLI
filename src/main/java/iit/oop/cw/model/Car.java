@@ -1,5 +1,8 @@
 package iit.oop.cw.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "vehicle")
 public class Car extends Vehicle{
 
     private String numberOfDoors;

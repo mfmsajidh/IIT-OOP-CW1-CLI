@@ -1,12 +1,10 @@
 package iit.oop.cw.service;
 
 import iit.oop.cw.constant.*;
-import iit.oop.cw.model.Car;
-import iit.oop.cw.model.Motorbike;
-import iit.oop.cw.model.Response;
-import iit.oop.cw.model.Vehicle;
+import iit.oop.cw.model.*;
 import iit.oop.cw.repository.CarRepository;
 import iit.oop.cw.repository.MotorBikeRepository;
+import iit.oop.cw.repository.SystemParameterRepository;
 import iit.oop.cw.repository.VehicleRepository;
 import iit.oop.cw.shell.InputReader;
 import iit.oop.cw.shell.ShellHelper;
@@ -29,14 +27,20 @@ public class VehicleService {
     private CarRepository carRepository;
     @Autowired
     private MotorBikeRepository motorBikeRepository;
+    @Autowired
+    private SystemParameterRepository systemParameterRepository;
 
-    private int availableParkingLot = AppConstant.MAXIMUM_PARKING_LOTS;
+//    private int availableParkingLot = AppConstant.MAXIMUM_PARKING_LOTS;
 
     public Response insertVehicle() {
 
         Response response = new Response();
 
-        if (availableParkingLot > 0) {
+        SystemParameter systemParameter = systemParameterRepository.findByComment(AppConstant.PARKING_LOT_COMMENT);
+        int availableSpaceCount = systemParameter.getAvailableSpaceCount();
+
+        if (availableSpaceCount > 0) {
+
             Vehicle vehicle = new Vehicle();
             Car car = new Car();
             Motorbike motorbike = new Motorbike();
@@ -54,10 +58,10 @@ public class VehicleService {
             VehicleType vehicleType = VehicleType.valueOf(vehicleTypeOptions.get(vehicleTypeValue.toUpperCase()));
             switch (vehicleType) {
                 case CAR:
-                    car.setType(vehicleType);
+                    car.setType(vehicleType.name());
                     break;
                 case MOTORBIKE:
-                    motorbike.setType(vehicleType);
+                    motorbike.setType(vehicleType.name());
                     break;
             }
 
@@ -93,7 +97,6 @@ public class VehicleService {
             } while (vehicle.getNumberPlate() == null);
 
 
-
             // Read vehicle's model
             do {
                 String model = inputReader.prompt(InputReaderPrompt.VEHICLE_MODEL);
@@ -112,7 +115,7 @@ public class VehicleService {
                 }
             } while (vehicle.getModel() == null);
 
-            switch (vehicle.getType()) {
+            switch (vehicleType) {
                 case CAR:
                     // Read car's number of doors
                     do {
@@ -133,7 +136,7 @@ public class VehicleService {
                             shellHelper.printWarning(ValidationMessage.EMPTY_CAR_AC);
                         }
                     } while (car.getAirConditioning() == null);
-
+                    break;
                 case MOTORBIKE:
                     // Read motobike's helmet availability
                     do {
@@ -154,6 +157,7 @@ public class VehicleService {
                             shellHelper.printWarning(ValidationMessage.EMPTY_BIKE_TYPE);
                         }
                     } while (motorbike.getBikeType() == null);
+                    break;
             }
 
             try {
@@ -166,11 +170,13 @@ public class VehicleService {
                         motorBikeRepository.insert(motorbike);
                 }
 
+                systemParameter.setAvailableSpaceCount(availableSpaceCount--);
+                systemParameterRepository.save(systemParameter);
+
                 response.setStatusCode(ResponseConstant.SUCCESS_CODE);
                 response.setStatusMessage(ResponseConstant.SUCCESSFUL_VEHICLE_CREATION);
 
-                availableParkingLot--;
-                shellHelper.printInfo(ShellHelperPrompt.AVAILABLE_SPACE);
+                shellHelper.printInfo(ShellHelperPrompt.AVAILABLE_SPACE + systemParameter.getAvailableSpaceCount());
             } catch (Exception e) {
                 response.setStatusCode(ResponseConstant.ERROR_CODE);
                 response.setStatusMessage(e.getMessage());
@@ -189,7 +195,7 @@ public class VehicleService {
         if (StringUtils.hasText(numberPlate)) {
             Optional<Vehicle> vehicle = vehicleRepository.findByNumberPlate(numberPlate);
             if (vehicle.isPresent()) {
-                shellHelper.printInfo(ShellHelperPrompt.DELETE_VEHICLE_BY_NUMBERPLATE + vehicle.get().getNumberPlate());
+                shellHelper.printInfo(ShellHelperPrompt.VEHICLE_NUMBERPLATE + vehicle.get().getNumberPlate());
                 shellHelper.print(ShellHelperPrompt.VEHICLE_TYPE + vehicle.get().getType());
                 shellHelper.print(ShellHelperPrompt.VEHICLE_MODEL + vehicle.get().getModel());
                 try {
@@ -198,8 +204,11 @@ public class VehicleService {
                     response.setStatusCode(ResponseConstant.SUCCESS_CODE);
                     response.setStatusMessage(ResponseConstant.SUCCESSFUL_VEHICLE_DELETION);
 
-                    availableParkingLot++;
-                    shellHelper.printInfo(ShellHelperPrompt.AVAILABLE_SPACE);
+                    SystemParameter systemParameter = systemParameterRepository.findByComment(AppConstant.PARKING_LOT_COMMENT);
+                    int availableSpaceCount = systemParameter.getAvailableSpaceCount();
+                    systemParameter.setAvailableSpaceCount(--availableSpaceCount);
+                    systemParameterRepository.save(systemParameter);
+                    shellHelper.printInfo(ShellHelperPrompt.AVAILABLE_SPACE + systemParameter.getAvailableSpaceCount());
 
                 } catch (Exception e) {
                     response.setStatusCode(ResponseConstant.ERROR_CODE);
@@ -221,10 +230,23 @@ public class VehicleService {
         List<Vehicle> vehicles = vehicleRepository.findAllByOrderByModelDesc();
 
         for (Vehicle vehicle: vehicles) {
-            shellHelper.print("Model" + vehicle.getModel());
-            shellHelper.print("_id" + vehicle.get_id());
-            shellHelper.print("Number Plate" + vehicle.getNumberPlate());
-            shellHelper.print("Type" + vehicle.getType());
+            shellHelper.print(ShellHelperPrompt.VEHICLE_MODEL + vehicle.getModel());
+            shellHelper.print(ShellHelperPrompt.VEHICLE_NUMBERPLATE + vehicle.getNumberPlate());
+            shellHelper.print(ShellHelperPrompt.VEHICLE_TYPE + vehicle.getType());
         }
+    }
+
+    public Response resetSpace() {
+        Response response = new Response();
+        SystemParameter systemParameter = new SystemParameter();
+        try {
+            systemParameterRepository.save(systemParameter);
+            response.setStatusCode(ResponseConstant.SUCCESS_CODE);
+            response.setStatusMessage(ResponseConstant.SUCCESSFUL_SPACE_RESET);
+        } catch (Exception e) {
+            response.setStatusCode(ResponseConstant.ERROR_CODE);
+            response.setStatusMessage(e.getMessage());
+        }
+        return response;
     }
 }

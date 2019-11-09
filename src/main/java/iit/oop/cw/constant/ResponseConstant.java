@@ -25,4 +25,7 @@ public class ResponseConstant {
     public static final String SUCCESSFUL_VEHICLE_DELETION = "Successfully deleted vehicle!";
     public static final String NO_VEHICLE_FOUND = "No such vehicle available!";
 
+    // Resetting Space
+    public static final String SUCCESSFUL_SPACE_RESET = "Successfully reset the parking lot space!";
+
 }
