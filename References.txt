@@ -22,4 +22,7 @@
 22) https://devops.datenkollektiv.de/banner.txt/index.html
 23) https://docs.spring.io/spring-shell/docs/
 24) https://www.w3schools.com/java/java_switch.asp
-25)
+25) http://www.informit.com/articles/article.aspx?p=30868&seqNum=2
+26) https://www.geeksforgeeks.org/enum-customized-value-java/
+27) https://www.geeksforgeeks.org/iterating-over-enum-values-in-java/
+28) https://www.baeldung.com/java-enum-iteration

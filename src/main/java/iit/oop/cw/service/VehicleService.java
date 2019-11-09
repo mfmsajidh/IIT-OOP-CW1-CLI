@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class VehicleService {
@@ -56,14 +55,15 @@ public class VehicleService {
             } while (vehicle.getNumberPlate() == null);
 
             // Read vehicle's type
-            do {
-                String type = inputReader.prompt(InputReaderPrompt.VEHICLE_TYPE);
-                if (StringUtils.hasText(type)) {
-                    vehicle.setType(type);
-                } else {
-                    shellHelper.printWarning(ValidationMessage.EMPTY_VEHICLE_TYPE);
-                }
-            } while (vehicle.getType() == null);
+            Map<String, String> vehicleTypeOptions = new HashMap<>();
+            Arrays.asList( VehicleType.values())
+                    .forEach( vehicleTypeOption ->
+                            vehicleTypeOptions.put(vehicleTypeOption.getValue(), vehicleTypeOption.name())
+            );
+            String vehicleTypeValue = inputReader.selectFromList(AppConstant.VEHICLE_TYPE_HEADING, InputReaderPrompt.VEHICLE_TYPE, vehicleTypeOptions, true, null);
+            VehicleType vehicleType = VehicleType.valueOf(vehicleTypeOptions.get(vehicleTypeValue.toUpperCase()));
+            vehicle.setType(vehicleType);
+
 
             // Read vehicle's model
             do {
@@ -77,8 +77,12 @@ public class VehicleService {
 
             try {
                 vehicleRepository.insert(vehicle);
+
                 response.setStatusCode(ResponseConstant.SUCCESS_CODE);
                 response.setStatusMessage(ResponseConstant.SUCCESSFUL_VEHICLE_CREATION);
+
+                availableParkingLot--;
+                shellHelper.printInfo(ShellHelperPrompt.AVAILABLE_SPACE);
             } catch (Exception e) {
                 response.setStatusCode(ResponseConstant.ERROR_CODE);
                 response.setStatusMessage(e.getMessage());
@@ -97,11 +101,18 @@ public class VehicleService {
         if (StringUtils.hasText(numberPlate)) {
             Optional<Vehicle> vehicle = vehicleRepository.findByNumberPlate(numberPlate);
             if (vehicle.isPresent()) {
-                shellHelper.printInfo(ShellHelperConstant.DELETE_VEHICLE_BY_NUMBERPLATE + vehicle.get().getNumberPlate());
-                shellHelper.print(ShellHelperConstant.VEHICLE_TYPE + vehicle.get().getType());
-                shellHelper.print(ShellHelperConstant.VEHICLE_MODEL + vehicle.get().getModel());
+                shellHelper.printInfo(ShellHelperPrompt.DELETE_VEHICLE_BY_NUMBERPLATE + vehicle.get().getNumberPlate());
+                shellHelper.print(ShellHelperPrompt.VEHICLE_TYPE + vehicle.get().getType());
+                shellHelper.print(ShellHelperPrompt.VEHICLE_MODEL + vehicle.get().getModel());
                 try {
                     vehicleRepository.deleteById(vehicle.get().get_id());
+
+                    response.setStatusCode(ResponseConstant.SUCCESS_CODE);
+                    response.setStatusMessage(ResponseConstant.SUCCESSFUL_VEHICLE_DELETION);
+
+                    availableParkingLot++;
+                    shellHelper.printInfo(ShellHelperPrompt.AVAILABLE_SPACE);
+
                 } catch (Exception e) {
                     response.setStatusCode(ResponseConstant.ERROR_CODE);
                     response.setStatusMessage(e.getMessage());

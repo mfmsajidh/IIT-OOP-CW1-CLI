@@ -4,4 +4,7 @@ public class AppConstant {
 
     public static final int MAXIMUM_PARKING_LOTS = 50;
 
+    //Vehicle Type Prompt Heading
+    public static final String VEHICLE_TYPE_HEADING = "Vehicle Type";
+
 }

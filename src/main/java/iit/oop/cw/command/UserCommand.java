@@ -70,7 +70,7 @@ public class UserCommand {
         user.setGender(gender);
 
         //Prompts for superuser attribute
-        String superuserValue = inputReader.promptWithOptions("New user is suepruser", "N", Arrays.asList("Y", "N"));
+        String superuserValue = inputReader.promptWithOptions("New user is superuser", "N", Arrays.asList("Y", "N"));
         if ("Y".equals(superuserValue)) {
             user.setSuperuser(true);
         } else {

@@ -1,5 +1,6 @@
 package iit.oop.cw.model;
 
+import iit.oop.cw.constant.VehicleType;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
@@ -9,7 +10,7 @@ public class Vehicle {
     private ObjectId _id;
 
     private String numberPlate;
-    private String type;
+    private VehicleType type;
     private String model;
 
 //    ObjectId needs to be converted to string
@@ -29,11 +30,11 @@ public class Vehicle {
         this.numberPlate = numberPlate;
     }
 
-    public String getType() {
+    public VehicleType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(VehicleType type) {
         this.type = type;
     }
 
