@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import org.springframework.shell.table.BeanListTableModel;
+import org.springframework.shell.table.BorderStyle;
+import org.springframework.shell.table.TableBuilder;
+import org.springframework.shell.table.TableModel;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @ShellComponent
 public class UserCommand {
@@ -94,5 +96,23 @@ public class UserCommand {
         String successMessage = shellHelper.getSuccessMessage("SUCCESS >>");
         successMessage = successMessage + String.format(" Total of %d local db users updated!", numOfUsers);
         shellHelper.print(successMessage);
+    }
+
+    @ShellMethod("Display list of users")
+    public void userList() {
+        List<User> users = userRepository.findAll();
+
+        LinkedHashMap<String, Object> headers = new LinkedHashMap<>();
+        headers.put("id", "Id");
+        headers.put("username", "Username");
+        headers.put("fullName", "Full name");
+        headers.put("gender", "Gender");
+        headers.put("superuser", "Superuser");
+        TableModel model = new BeanListTableModel<>(users, headers);
+
+        TableBuilder tableBuilder = new TableBuilder(model);
+        tableBuilder.addInnerBorder(BorderStyle.fancy_light);
+        tableBuilder.addHeaderBorder(BorderStyle.fancy_double);
+        shellHelper.print(tableBuilder.build().render(80));
     }
 }
