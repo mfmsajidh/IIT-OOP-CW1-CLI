@@ -1,4 +1,4 @@
-package iit.oop.cw.util;
+package iit.oop.cw.shell.table;
 
 import org.springframework.shell.table.Formatter;
 
