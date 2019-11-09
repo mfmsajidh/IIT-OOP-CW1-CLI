@@ -170,7 +170,7 @@ public class VehicleService {
                         motorBikeRepository.insert(motorbike);
                 }
 
-                systemParameter.setAvailableSpaceCount(availableSpaceCount--);
+                systemParameter.setAvailableSpaceCount(--availableSpaceCount);
                 systemParameterRepository.save(systemParameter);
 
                 response.setStatusCode(ResponseConstant.SUCCESS_CODE);
@@ -206,7 +206,7 @@ public class VehicleService {
 
                     SystemParameter systemParameter = systemParameterRepository.findByComment(AppConstant.PARKING_LOT_COMMENT);
                     int availableSpaceCount = systemParameter.getAvailableSpaceCount();
-                    systemParameter.setAvailableSpaceCount(--availableSpaceCount);
+                    systemParameter.setAvailableSpaceCount(++availableSpaceCount);
                     systemParameterRepository.save(systemParameter);
                     shellHelper.printInfo(ShellHelperPrompt.AVAILABLE_SPACE + systemParameter.getAvailableSpaceCount());
 
