@@ -10,7 +10,7 @@ public class CwPromptProvider implements PromptProvider {
 
     @Override
     public AttributedString getPrompt() {
-        return new AttributedString("OOP-CW:>",
+        return new AttributedString("RENTAL-SYSTEM:>",
                 AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE)
         );
     }
