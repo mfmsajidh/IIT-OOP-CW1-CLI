@@ -1,18 +1,17 @@
 package iit.oop.cw.command;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import iit.oop.cw.model.User;
 import iit.oop.cw.repository.UserRepository;
 import iit.oop.cw.constant.Gender;
 import iit.oop.cw.shell.InputReader;
 import iit.oop.cw.shell.ShellHelper;
+import iit.oop.cw.shell.table.BeanTableModelBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import org.springframework.shell.table.BeanListTableModel;
-import org.springframework.shell.table.BorderStyle;
-import org.springframework.shell.table.TableBuilder;
-import org.springframework.shell.table.TableModel;
+import org.springframework.shell.table.*;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -26,6 +25,8 @@ public class UserCommand {
     UserRepository userRepository;
     @Autowired
     InputReader inputReader;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @ShellMethod("Create new user with supplied username")
     public void createUser(@ShellOption({"-U", "--username"}) String username) {
@@ -113,6 +114,38 @@ public class UserCommand {
         TableBuilder tableBuilder = new TableBuilder(model);
         tableBuilder.addInnerBorder(BorderStyle.fancy_light);
         tableBuilder.addHeaderBorder(BorderStyle.fancy_double);
+        shellHelper.print(tableBuilder.build().render(80));
+    }
+
+    @ShellMethod("Display details of user with supplied username")
+    public void userDetails(@ShellOption({"-U", "--username"}) String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            shellHelper.printWarning("No user with the supplied username could be found?!");
+            return;
+        }
+        displayUser(user);
+    }
+
+    private void displayUser(User user) {
+        LinkedHashMap<String, Object> labels = new LinkedHashMap<>();
+        labels.put("id", "Id");
+        labels.put("username", "Username");
+        labels.put("fullName", "Full name");
+        labels.put("gender", "Gender");
+        labels.put("superuser", "Superuser");
+        labels.put("password", "Password");
+
+        String[] header = new String[] {"Property", "Value"};
+        BeanTableModelBuilder builder = new BeanTableModelBuilder(user, objectMapper);
+        TableModel model = builder.withLabels(labels).withHeader(header).build();
+
+        TableBuilder tableBuilder = new TableBuilder(model);
+
+        tableBuilder.addInnerBorder(BorderStyle.fancy_light);
+        tableBuilder.addHeaderBorder(BorderStyle.fancy_double);
+        tableBuilder.on(CellMatchers.column(0)).addSizer(new AbsoluteWidthSizeConstraints(20));
+        tableBuilder.on(CellMatchers.column(1)).addSizer(new AbsoluteWidthSizeConstraints(30));
         shellHelper.print(tableBuilder.build().render(80));
     }
 }
