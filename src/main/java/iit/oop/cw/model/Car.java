@@ -2,22 +2,22 @@ package iit.oop.cw.model;
 
 public class Car extends Vehicle{
 
-    private int numberOfDoors;
-    private boolean airConditioning;
+    private String numberOfDoors;
+    private String airConditioning;
 
-    public int getNumberOfDoors() {
+    public String getNumberOfDoors() {
         return numberOfDoors;
     }
 
-    public void setNumberOfDoors(int numberOfDoors) {
+    public void setNumberOfDoors(String numberOfDoors) {
         this.numberOfDoors = numberOfDoors;
     }
 
-    public boolean isAirConditioning() {
+    public String getAirConditioning() {
         return airConditioning;
     }
 
-    public void setAirConditioning(boolean airConditioning) {
+    public void setAirConditioning(String airConditioning) {
         this.airConditioning = airConditioning;
     }
 }

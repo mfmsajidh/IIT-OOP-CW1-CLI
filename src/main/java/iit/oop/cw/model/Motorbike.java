@@ -2,14 +2,14 @@ package iit.oop.cw.model;
 
 public class Motorbike extends Vehicle {
 
-    private boolean helmetProvided;
+    private String helmetProvided;
     private String bikeType;
 
-    public boolean isHelmetProvided() {
+    public String getHelmetProvided() {
         return helmetProvided;
     }
 
-    public void setHelmetProvided(boolean helmetProvided) {
+    public void setHelmetProvided(String helmetProvided) {
         this.helmetProvided = helmetProvided;
     }
 
