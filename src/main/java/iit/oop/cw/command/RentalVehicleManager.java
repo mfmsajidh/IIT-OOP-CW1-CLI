@@ -11,7 +11,7 @@ public interface RentalVehicleManager {
     public void addVehicle();
 
     @ShellMethod
-    public void deleteVehicle(@ShellOption String numberPlate);
+    public void deleteVehicle();
 
     @ShellMethod
     public void viewVehicles();

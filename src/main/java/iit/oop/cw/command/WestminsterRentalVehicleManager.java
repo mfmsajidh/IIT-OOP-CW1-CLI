@@ -1,6 +1,9 @@
 package iit.oop.cw.command;
 
+import iit.oop.cw.model.Response;
+import iit.oop.cw.service.ResponseService;
 import iit.oop.cw.service.VehicleService;
+import iit.oop.cw.shell.ShellHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
@@ -10,18 +13,24 @@ import org.springframework.stereotype.Component;
 public class WestminsterRentalVehicleManager implements RentalVehicleManager {
 
     @Autowired
+    ShellHelper shellHelper;
+    @Autowired
+    ResponseService responseService;
+    @Autowired
     private VehicleService vehicleService;
 
     @Override
     @ShellMethod("Create a new vehicle with the supplied information")
     public void addVehicle() {
-        vehicleService.insertVehicle();
+        Response response = vehicleService.insertVehicle();
+        responseService.respond(response.getStatusCode(), response.getStatusMessage());
     }
 
     @Override
     @ShellMethod("Delete a vehicle by it's number plate")
-    public void deleteVehicle(@ShellOption String numberPlate) {
-        vehicleService.deleteVehicle(numberPlate);
+    public void deleteVehicle() {
+        Response response = vehicleService.deleteVehicle();
+        responseService.respond(response.getStatusCode(), response.getStatusMessage());
     }
 
     @Override

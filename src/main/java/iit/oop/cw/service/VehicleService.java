@@ -1,6 +1,7 @@
 package iit.oop.cw.service;
 
-import iit.oop.cw.constant.AppConstant;
+import iit.oop.cw.constant.*;
+import iit.oop.cw.model.Response;
 import iit.oop.cw.model.Vehicle;
 import iit.oop.cw.repository.VehicleRepository;
 import iit.oop.cw.shell.InputReader;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VehicleService {
@@ -23,55 +25,96 @@ public class VehicleService {
 
     private int availableParkingLot = AppConstant.MAXIMUM_PARKING_LOTS;
 
-    public void insertVehicle() {
+    public Response insertVehicle() {
+
+        Response response = new Response();
+
         if (availableParkingLot > 0) {
             Vehicle vehicle = new Vehicle();
 
             // Read vehicle's number plate
             do {
-                String numberPlate = inputReader.prompt("Vehicle Number Plate");
+                String numberPlate = inputReader.prompt(InputReaderPrompt.VEHICLE_NUMBER_PLATE);
                 if (StringUtils.hasText(numberPlate)) {
-                    vehicle.setNumberPlate(numberPlate);
+                    try {
+                        Optional<Vehicle> vehicleExists = vehicleRepository.findByNumberPlate(numberPlate);
+                        if (vehicleExists.isPresent()) {
+                            response.setStatusCode(ResponseConstant.INFO_CODE);
+                            response.setStatusMessage(ResponseConstant.VEHICLE_EXISTS);
+                            return response;
+                        } else {
+                            vehicle.setNumberPlate(numberPlate);
+                        }
+                    } catch (Exception e) {
+                        response.setStatusCode(ResponseConstant.ERROR_CODE);
+                        response.setStatusMessage(e.getMessage());
+                        return response;
+                    }
                 } else {
-                    shellHelper.printWarning("Vehicle number plate cannot be empty!");
+                    shellHelper.printWarning(ValidationMessage.EMPTY_NUMBER_LATE);
                 }
             } while (vehicle.getNumberPlate() == null);
 
             // Read vehicle's type
             do {
-                String type = inputReader.prompt("Vehicle Type");
+                String type = inputReader.prompt(InputReaderPrompt.VEHICLE_TYPE);
                 if (StringUtils.hasText(type)) {
                     vehicle.setType(type);
                 } else {
-                    shellHelper.printWarning("Vehicle type cannot be empty!");
+                    shellHelper.printWarning(ValidationMessage.EMPTY_VEHICLE_TYPE);
                 }
             } while (vehicle.getType() == null);
 
             // Read vehicle's model
             do {
-                String model = inputReader.prompt("Vehicle Model");
+                String model = inputReader.prompt(InputReaderPrompt.VEHICLE_MODEL);
                 if (StringUtils.hasText(model)) {
                     vehicle.setModel(model);
                 } else {
-                    shellHelper.printWarning("Vehicle model cannot be empty!");
+                    shellHelper.printWarning(ValidationMessage.EMPTY_VEHICLE_MODEL);
                 }
             } while (vehicle.getModel() == null);
 
-            vehicleRepository.insert(vehicle);
-            shellHelper.printSuccess("Successfully created vehicle!");
+            try {
+                vehicleRepository.insert(vehicle);
+                response.setStatusCode(ResponseConstant.SUCCESS_CODE);
+                response.setStatusMessage(ResponseConstant.SUCCESSFUL_VEHICLE_CREATION);
+            } catch (Exception e) {
+                response.setStatusCode(ResponseConstant.ERROR_CODE);
+                response.setStatusMessage(e.getMessage());
+            }
         } else {
-            shellHelper.printInfo(AppConstant.NO_AVAILABLE_PARKING_LOT);
+            response.setStatusCode(ResponseConstant.INFO_CODE);
+            response.setStatusMessage(ResponseConstant.NO_AVAILABLE_PARKING_LOT);
         }
+        return response;
     }
 
-    public void deleteVehicle(String numberPlate) {
-        Vehicle vehicle = vehicleRepository.findByNumberPlate(numberPlate);
-        shellHelper.printInfo("Deleting vehicle with number plate: " + vehicle.getNumberPlate());
-        shellHelper.print("Vehicle Type: " + vehicle.getType());
-        shellHelper.print("Vehicle Model: " + vehicle.getModel());
+    public Response deleteVehicle() {
+        Response response = new Response();
 
-        vehicleRepository.deleteById(vehicle.get_id());
-        shellHelper.printSuccess("Successfully Deleted Vehicle!");
+        String numberPlate = inputReader.prompt(InputReaderPrompt.VEHICLE_NUMBER_PLATE);
+        if (StringUtils.hasText(numberPlate)) {
+            Optional<Vehicle> vehicle = vehicleRepository.findByNumberPlate(numberPlate);
+            if (vehicle.isPresent()) {
+                shellHelper.printInfo(ShellHelperConstant.DELETE_VEHICLE_BY_NUMBERPLATE + vehicle.get().getNumberPlate());
+                shellHelper.print(ShellHelperConstant.VEHICLE_TYPE + vehicle.get().getType());
+                shellHelper.print(ShellHelperConstant.VEHICLE_MODEL + vehicle.get().getModel());
+                try {
+                    vehicleRepository.deleteById(vehicle.get().get_id());
+                } catch (Exception e) {
+                    response.setStatusCode(ResponseConstant.ERROR_CODE);
+                    response.setStatusMessage(e.getMessage());
+                }
+            } else {
+                response.setStatusCode(ResponseConstant.INFO_CODE);
+                response.setStatusMessage(ResponseConstant.NO_VEHICLE_FOUND);
+            }
+        } else  {
+            response.setStatusCode(ResponseConstant.WARNING_CODE);
+            response.setStatusMessage(ValidationMessage.EMPTY_NUMBER_LATE);
+        }
+        return response;
     }
 
     public void viewVehiclesByModel() {
