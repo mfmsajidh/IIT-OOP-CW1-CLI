@@ -1,8 +1,10 @@
 package iit.oop.cw.model;
 
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "vehicle")
+@TypeAlias("Car")
 public class Car extends Vehicle{
 
     private String numberOfDoors;
