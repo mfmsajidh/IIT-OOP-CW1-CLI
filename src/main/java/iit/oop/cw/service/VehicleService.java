@@ -2,10 +2,7 @@ package iit.oop.cw.service;
 
 import iit.oop.cw.constant.*;
 import iit.oop.cw.model.*;
-import iit.oop.cw.repository.CarRepository;
-import iit.oop.cw.repository.MotorBikeRepository;
-import iit.oop.cw.repository.SystemParameterRepository;
-import iit.oop.cw.repository.VehicleRepository;
+import iit.oop.cw.repository.*;
 import iit.oop.cw.shell.InputReader;
 import iit.oop.cw.shell.ShellHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,8 @@ public class VehicleService {
     private MotorBikeRepository motorBikeRepository;
     @Autowired
     private SystemParameterRepository systemParameterRepository;
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
 //    private int availableParkingLot = AppConstant.MAXIMUM_PARKING_LOTS;
 
