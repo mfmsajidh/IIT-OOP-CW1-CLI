@@ -115,11 +115,25 @@ public class VehicleService {
                 }
             } while (vehicle.getModel() == null);
 
+            // Read availability values
+            Map<String, String> availabilityTypeOptions = new HashMap<>();
+            Arrays.asList( AvailabilityType.values())
+                    .forEach(availabilityType ->
+                            availabilityTypeOptions.put(availabilityType.getValue(), availabilityType.name())
+                    );
+
             switch (vehicleType) {
                 case CAR:
                     // Read car's number of doors
                     do {
-                        String numberOfDoors = inputReader.prompt(InputReaderPrompt.CAR_DOOR_COUNT);
+                        // Read door count values
+                        Map<String, String> doorCountOptions = new HashMap<>();
+                        Arrays.asList( DoorCount.values())
+                                .forEach( doorCount ->
+                                        doorCountOptions.put(doorCount.getValue(), doorCount.name())
+                                );
+
+                        String numberOfDoors = inputReader.selectFromList(AppConstant.NUMBER_OF_DOORS, InputReaderPrompt.CAR_DOOR_COUNT, doorCountOptions, true, null);
                         if (StringUtils.hasText(numberOfDoors)) {
                                 car.setNumberOfDoors(numberOfDoors);
                         } else {
@@ -129,7 +143,7 @@ public class VehicleService {
 
                     // Read car's air conditioning
                     do {
-                        String airConditioning = inputReader.prompt(InputReaderPrompt.AIR_CONDITION);
+                        String airConditioning = inputReader.selectFromList(AppConstant.AVAILABILITY_TYPE_HEADING, InputReaderPrompt.AIR_CONDITION, availabilityTypeOptions, true, null);
                         if (StringUtils.hasText(airConditioning)) {
                                 car.setAirConditioning(airConditioning);
                         } else {

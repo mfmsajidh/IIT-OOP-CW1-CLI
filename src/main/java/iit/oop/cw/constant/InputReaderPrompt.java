@@ -8,11 +8,11 @@ public class InputReaderPrompt {
     public static final String VEHICLE_MODEL = "Enter vehicle model";
 
     // Car Details
-    public static final String CAR_DOOR_COUNT = "Enter the number of doors in the car";
-    public static final String AIR_CONDITION = "Enter the A/C availability";
+    public static final String CAR_DOOR_COUNT = "Enter one of the [] values for the number of doors in the car";
+    public static final String AIR_CONDITION = "Enter one of the [] values for A/C availability";
 
     // Motorbike Details
-    public static final String HELMET_PROVIDED = "Enter the helmet availability";
+    public static final String HELMET_PROVIDED = "Enter one of the [] values for helmet availability";
     public static final String BIKE_TYPE = "Enter the bike type";
 
 }
