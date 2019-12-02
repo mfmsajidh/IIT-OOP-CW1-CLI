@@ -13,6 +13,6 @@ public class InputReaderPrompt {
 
     // Motorbike Details
     public static final String HELMET_PROVIDED = "Enter one of the [] values for helmet availability";
-    public static final String BIKE_TYPE = "Enter the bike type";
+    public static final String BIKE_TYPE = "Enter one of the [] values for the bike type";
 
 }

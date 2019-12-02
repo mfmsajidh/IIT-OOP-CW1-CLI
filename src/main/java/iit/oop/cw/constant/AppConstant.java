@@ -13,6 +13,9 @@ public class AppConstant {
     // Car Door Count Heading
     public static final String NUMBER_OF_DOORS = "Number of Doors";
 
+    // Bike Type Heading
+    public static final String BIKE_TYPE = "Bike Type";
+
     // MongoDB System Parameters
     public static final String PARKING_LOT_COMMENT = "Available Space Count";
 

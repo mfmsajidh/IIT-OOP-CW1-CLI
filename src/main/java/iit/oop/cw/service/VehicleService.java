@@ -172,7 +172,15 @@ public class VehicleService {
 
                     // Read motobike's type
                     do {
-                        String bikeType = inputReader.prompt(InputReaderPrompt.BIKE_TYPE);
+
+                        Map<String, String> bikeTypeOptions = new HashMap<>();
+                        Arrays.asList( BikeType.values())
+                                .forEach( bikeType ->
+                                        bikeTypeOptions.put(bikeType.getValue(), bikeType.name())
+                                );
+
+                        String bikeType = inputReader.selectFromList(AppConstant.BIKE_TYPE, InputReaderPrompt.BIKE_TYPE, bikeTypeOptions, false, null);
+
                         if (StringUtils.hasText(bikeType)) {
                             motorbike.setBikeType(bikeType);
                         } else {
