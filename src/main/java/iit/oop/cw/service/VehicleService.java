@@ -53,7 +53,7 @@ public class VehicleService {
                             vehicleTypeOptions.put(vehicleTypeOption.getValue(), vehicleTypeOption.name())
                     );
 
-            String vehicleTypeValue = inputReader.selectFromList(AppConstant.VEHICLE_TYPE_HEADING, InputReaderPrompt.VEHICLE_TYPE, vehicleTypeOptions, true, null);
+            String vehicleTypeValue = inputReader.selectFromList(AppConstant.VEHICLE_TYPE_HEADING, InputReaderPrompt.VEHICLE_TYPE, vehicleTypeOptions, false, null);
 
             VehicleType vehicleType = VehicleType.valueOf(vehicleTypeOptions.get(vehicleTypeValue.toUpperCase()));
             switch (vehicleType) {
@@ -115,13 +115,6 @@ public class VehicleService {
                 }
             } while (vehicle.getModel() == null);
 
-            // Read availability values
-            Map<String, String> availabilityTypeOptions = new HashMap<>();
-            Arrays.asList( AvailabilityType.values())
-                    .forEach(availabilityType ->
-                            availabilityTypeOptions.put(availabilityType.getValue(), availabilityType.name())
-                    );
-
             switch (vehicleType) {
                 case CAR:
                     // Read car's number of doors
@@ -133,7 +126,7 @@ public class VehicleService {
                                         doorCountOptions.put(doorCount.getValue(), doorCount.name())
                                 );
 
-                        String numberOfDoors = inputReader.selectFromList(AppConstant.NUMBER_OF_DOORS, InputReaderPrompt.CAR_DOOR_COUNT, doorCountOptions, true, null);
+                        String numberOfDoors = inputReader.selectFromList(AppConstant.NUMBER_OF_DOORS, InputReaderPrompt.CAR_DOOR_COUNT, doorCountOptions, false, null);
                         if (StringUtils.hasText(numberOfDoors)) {
                                 car.setNumberOfDoors(numberOfDoors);
                         } else {
@@ -143,7 +136,13 @@ public class VehicleService {
 
                     // Read car's air conditioning
                     do {
-                        String airConditioning = inputReader.selectFromList(AppConstant.AVAILABILITY_TYPE_HEADING, InputReaderPrompt.AIR_CONDITION, availabilityTypeOptions, true, null);
+                        // Read availability values
+                        Map<String, String> availabilityTypeOptions = new HashMap<>();
+                        Arrays.asList( AvailabilityType.values())
+                                .forEach(availabilityType ->
+                                        availabilityTypeOptions.put(availabilityType.getValue(), availabilityType.name())
+                                );
+                        String airConditioning = inputReader.selectFromList(AppConstant.AVAILABILITY_TYPE_HEADING, InputReaderPrompt.AIR_CONDITION, availabilityTypeOptions, false, null);
                         if (StringUtils.hasText(airConditioning)) {
                                 car.setAirConditioning(airConditioning);
                         } else {
@@ -154,7 +153,16 @@ public class VehicleService {
                 case MOTORBIKE:
                     // Read motobike's helmet availability
                     do {
-                        String helmetProvided = inputReader.prompt(InputReaderPrompt.HELMET_PROVIDED);
+
+                        // Read availability values
+                        Map<String, String> availabilityTypeOptions = new HashMap<>();
+                        Arrays.asList( AvailabilityType.values())
+                                .forEach(availabilityType ->
+                                        availabilityTypeOptions.put(availabilityType.getValue(), availabilityType.name())
+                                );
+                        String helmetProvided = inputReader.selectFromList(AppConstant.AVAILABILITY_TYPE_HEADING, InputReaderPrompt.HELMET_PROVIDED, availabilityTypeOptions, false, null);
+
+//                        String helmetProvided = inputReader.prompt(InputReaderPrompt.HELMET_PROVIDED);
                         if (StringUtils.hasText(helmetProvided)) {
                             motorbike.setHelmetProvided(helmetProvided);
                         } else {

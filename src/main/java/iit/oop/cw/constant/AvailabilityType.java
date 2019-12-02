@@ -1,8 +1,8 @@
 package iit.oop.cw.constant;
 
 public enum AvailabilityType {
-    YES("Yes"),
-    NO("No");
+    YES("Y"),
+    NO("N");
 
     // declaring private variable for getting values
     private String value;
