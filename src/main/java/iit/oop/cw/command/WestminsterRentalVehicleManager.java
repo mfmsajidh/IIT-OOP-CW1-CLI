@@ -9,6 +9,8 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class WestminsterRentalVehicleManager implements RentalVehicleManager {
 
@@ -43,5 +45,10 @@ public class WestminsterRentalVehicleManager implements RentalVehicleManager {
     public void resetSpace() {
         Response response = vehicleService.resetSpace();
         responseService.respond(response.getStatusCode(), response.getStatusMessage());
+    }
+
+    @ShellMethod("Prints the stock list")
+    public void printStock() throws IOException {
+        vehicleService.printStock();
     }
 }

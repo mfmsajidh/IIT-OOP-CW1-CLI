@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -278,4 +280,37 @@ public class VehicleService {
         }
         return response;
     }
+
+    public void printStock() throws IOException {
+        List<Vehicle> vehicles = vehicleRepository.findAll();
+
+        for (Vehicle vehicle: vehicles) {
+            String numberPlate = vehicle.getNumberPlate();
+            String model = vehicle.getModel();
+            String type = vehicle.getType();
+
+            // Our example data
+            List<List<String>> rows = Arrays.asList(
+                    Arrays.asList(numberPlate, model, type)
+            );
+
+            FileWriter csvWriter = new FileWriter("stockList.csv", true);
+            csvWriter.append("Number Plate");
+            csvWriter.append(",");
+            csvWriter.append("Model");
+            csvWriter.append(",");
+            csvWriter.append("Type");
+            csvWriter.append("\n");
+
+            for (List<String> rowData : rows) {
+                csvWriter.append(String.join(",", rowData));
+                csvWriter.append("\n");
+            }
+
+            csvWriter.flush();
+            csvWriter.close();
+        }
+
+    }
 }
+
